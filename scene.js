@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const carHost=document.querySelector('#car-canvas'), detailHost=document.querySelector('#detail-canvas'),wheelHost=document.querySelector('#wheel-canvas');
@@ -35,7 +34,7 @@ const main=makeStageSafely(carHost,{x:5,y:2.8,z:7},'.scene-fallback');
 const details=makeStageSafely(detailHost,{x:5.2,y:2.4,z:7.7},'.craft-fallback');
 window.addEventListener('scroll',()=>{scrollProgress=window.apexScroll||0;craftProgress=window.apexCraftScroll||0},{passive:true});
 window.addEventListener('apex-color',e=>{if(bodyMaterial)bodyMaterial.color.set(e.detail)});
-const draco=new DRACOLoader();draco.setDecoderPath('./vendor/draco/');const loader=new GLTFLoader();loader.setDRACOLoader(draco);
+const loader=new GLTFLoader();
 function fitModel(model,material){
  model.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;if(o.name==='body')o.material=material});
  const box=new THREE.Box3().setFromObject(model),size=box.getSize(new THREE.Vector3()),center=box.getCenter(new THREE.Vector3()),scale=5.3/Math.max(size.x,size.y,size.z);model.scale.setScalar(scale);model.position.set(-center.x*scale,-box.min.y*scale+.07,-center.z*scale);return model;
